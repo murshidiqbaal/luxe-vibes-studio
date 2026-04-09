@@ -2,31 +2,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import aboutImg from '@/assets/about.jpg';
 
-function AnimatedCounter({ target, label }: { target: number; label: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true });
-  const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    if (!inView) return;
-    let start = 0;
-    const duration = 2000;
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
-      setCount(Math.floor(progress * target));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [inView, target]);
-
-  return (
-    <div ref={ref} className="text-center">
-      <div className="font-heading text-4xl md:text-5xl text-primary">{count}+</div>
-      <p className="mt-2 text-xs tracking-widest uppercase text-muted-foreground">{label}</p>
-    </div>
-  );
-}
 
 export default function AboutSection() {
   const ref = useRef(null);
@@ -66,8 +42,8 @@ export default function AboutSection() {
               <span className="text-gradient">Kothamangalam & Ernakulam</span>
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              At Luxevibes, we are the leading luxury wedding planners in Kothamangalam and Ernakulam.
-              With years of expertise in premium event planning across Kerala, we transform your vision
+              At Luxe Vibe, we are the emerging leaders in luxury wedding planning in Kothamangalam and Ernakulam.
+              With a fresh perspective and a passion for cinematic perfection across Kerala, we transform your vision
               into breathtaking celebrations that leave lasting impressions.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-10">
@@ -76,10 +52,15 @@ export default function AboutSection() {
               to reflect your unique story and style.
             </p>
 
-            <div className="grid grid-cols-3 gap-6">
-              <AnimatedCounter target={250} label="Events" />
-              <AnimatedCounter target={12} label="Years" />
-              <AnimatedCounter target={500} label="Clients" />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              <div className="text-center md:text-left">
+                <div className="font-heading text-2xl md:text-3xl text-primary uppercase tracking-widest">Bespoke</div>
+                <p className="mt-2 text-[10px] tracking-widest uppercase text-muted-foreground">Tailored Details</p>
+              </div>
+              <div className="text-center md:text-left">
+                <div className="font-heading text-2xl md:text-3xl text-primary uppercase tracking-widest">Premium</div>
+                <p className="mt-2 text-[10px] tracking-widest uppercase text-muted-foreground">Top-Tier Quality</p>
+              </div>
             </div>
           </motion.div>
         </div>

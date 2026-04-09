@@ -59,7 +59,7 @@ export default function PortfolioSection() {
               onClick={() => setFilter(cat)}
               className={`px-6 py-2.5 text-[10px] tracking-[0.2em] uppercase border transition-all duration-500 rounded-sm ${
                 filter === cat
-                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(212,175,55,0.15)]'
+                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(0,229,255,0.15)]'
                   : 'border-white/10 text-muted-foreground hover:border-primary/50 hover:text-foreground'
               }`}
             >

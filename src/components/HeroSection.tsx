@@ -40,7 +40,7 @@ export default function HeroSection() {
       >
         <img
           src={bgImage}
-          alt="Luxury wedding venue setup in Kothamangalam by Luxevibes"
+          alt="Luxury wedding venue setup in Kothamangalam by Luxe Vibe"
           className="w-full h-full object-cover"
           width={1920}
           height={1080}
@@ -87,7 +87,7 @@ export default function HeroSection() {
         >
           <a
             href="#contact"
-            className="px-10 py-4 bg-primary text-primary-foreground text-xs tracking-[0.2em] uppercase hover:brightness-110 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-500"
+            className="px-10 py-4 bg-primary text-primary-foreground text-xs tracking-[0.2em] uppercase hover:brightness-110 hover:shadow-[0_0_20px_rgba(0,229,255,0.4)] transition-all duration-500"
           >
             Book a Consultation
           </a>

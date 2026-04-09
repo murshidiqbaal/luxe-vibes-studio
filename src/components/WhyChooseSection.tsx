@@ -3,10 +3,10 @@ import { useRef } from 'react';
 import { Award, Users, MapPin, Calendar } from 'lucide-react';
 
 const reasons = [
-  { icon: Award, title: 'Award-Winning Design', desc: 'Recognized as top luxury wedding planners in Ernakulam with award-winning event designs.' },
-  { icon: Users, title: '500+ Happy Clients', desc: 'Trusted by over 500 families across Kothamangalam, Ernakulam, and Kerala for their most special occasions.' },
+  { icon: Award, title: 'Incredible Detail', desc: 'Every element of your event is curated with a fresh cinematic eye for unrivaled luxury.' },
+  { icon: Users, title: 'Bespoke Service', desc: 'We work closely with each family to ensure a deeply personal and exclusive planning experience.' },
   { icon: MapPin, title: 'Local Expertise', desc: 'Deep knowledge of the best venues, vendors, and hidden gems in Kothamangalam and Ernakulam.' },
-  { icon: Calendar, title: '12+ Years Experience', desc: 'Over a decade of experience planning luxury weddings and premium events across Kerala and India.' },
+  { icon: Calendar, title: 'Flawless Execution', desc: 'Passionate commitment to bringing visionary concepts to life with absolute precision.' },
 ];
 
 export default function WhyChooseSection() {

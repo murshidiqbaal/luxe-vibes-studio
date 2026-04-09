@@ -1,4 +1,4 @@
-import logo from '@/assets/logo.jpeg';
+import logo from '@/assets/luxevibelogo.png';
 
 export default function Footer() {
   return (
@@ -8,7 +8,7 @@ export default function Footer() {
           <div className="flex items-center gap-3">
             <img src={logo} alt="LuxeVibes" className="h-10 w-10 rounded-full object-cover" />
             <span className="font-heading text-xl tracking-wider">
-              LUXE<span className="text-primary">VIBES</span>
+            LUXE <span className="text-primary">VIBE</span>
             </span>
           </div>
 
@@ -25,7 +25,7 @@ export default function Footer() {
           </nav>
 
           <p className="text-muted-foreground text-xs">
-            © {new Date().getFullYear()} LuxeVibes. All rights reserved.
+            © {new Date().getFullYear()} Luxe Vibe. All rights reserved.
           </p>
         </div>
       </div>

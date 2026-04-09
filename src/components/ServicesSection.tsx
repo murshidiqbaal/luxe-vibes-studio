@@ -32,7 +32,7 @@ export default function ServicesSection() {
     }
   });
 
-  const activeServices = dbServices && dbServices.length === 4 ? dbServices : fallbackServices;
+  const activeServices = dbServices && Array.isArray(dbServices) && dbServices.length === 4 ? dbServices : fallbackServices;
 
 
 
@@ -62,7 +62,7 @@ export default function ServicesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 1.2, delay: i * 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative h-full min-h-[320px] p-10 glass hover:-translate-y-2 hover:gold-glow hover:border-primary/50 transition-all duration-700 cursor-pointer overflow-hidden rounded-sm flex flex-col justify-end"
+                className="group relative h-full min-h-[320px] p-10 glass hover:-translate-y-2 hover:brand-glow hover:border-primary/50 transition-all duration-700 cursor-pointer overflow-hidden rounded-sm flex flex-col justify-end"
               >
                 {s.imageUrl && (
                   <img

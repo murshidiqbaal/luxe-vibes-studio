@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '@/assets/logo.jpeg';
+import logo from '@/assets/luxevibelogo.png';
 
 const navLinks = [
   { label: 'Home', href: '#hero' },
@@ -34,7 +34,7 @@ export default function Header() {
         <a href="#hero" className="flex items-center gap-3">
           <img src={logo} alt="LuxeVibes" className="h-10 w-10 rounded-full object-cover" />
           <span className="font-heading text-xl tracking-wider text-foreground">
-            LUXE<span className="text-primary">VIBES</span>
+            LUXE <span className="text-primary">VIBE</span>
           </span>
         </a>
 
@@ -52,7 +52,7 @@ export default function Header() {
 
         <a
           href="#contact"
-          className="hidden md:inline-flex px-6 py-2.5 border border-primary text-primary text-xs tracking-widest uppercase hover:bg-primary hover:text-primary-foreground hover:gold-glow transition-all duration-500"
+          className="hidden md:inline-flex px-6 py-2.5 border border-primary text-primary text-xs tracking-widest uppercase hover:bg-primary hover:text-primary-foreground hover:brand-glow transition-all duration-500"
         >
           Book Now
         </a>

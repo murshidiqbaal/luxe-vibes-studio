@@ -68,7 +68,7 @@
 //     // Particle settings
 //     const isMobile = window.innerWidth < 768;
 //     const maxParticles = isMobile ? 15 : 40;
-//     const colors = ['rgba(212, 175, 55,', 'rgba(255, 255, 255,']; // Soft gold and white (will add opacity)
+//     const colors = ['rgba(0, 229, 255,', 'rgba(255, 255, 255,']; // Neon cyan and white
 //     const particles: Particle[] = [];
 
 //     // Initialize particles
