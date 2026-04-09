@@ -37,29 +37,30 @@ export default function PortfolioSection() {
       <div className="container mx-auto px-6">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-16"
         >
-          <p className="text-primary text-xs tracking-[0.4em] uppercase mb-4">Our Work</p>
-          <h2 className="font-heading text-3xl md:text-5xl">
+          <p className="text-primary text-[10px] tracking-[0.4em] uppercase mb-6">Our Work</p>
+          <h2 className="font-heading text-4xl md:text-6xl tracking-wide">
             Luxury Event <span className="text-gradient">Portfolio</span>
           </h2>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-sm">
+          <p className="mt-6 text-muted-foreground/80 font-light max-w-2xl mx-auto text-sm md:text-base leading-relaxed tracking-wide">
             Browse our curated collection of luxury weddings and premium events across Kothamangalam, Ernakulam, and Kerala.
           </p>
         </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        <div className="flex flex-wrap justify-center gap-4 mb-16">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`px-5 py-2 text-xs tracking-widest uppercase border transition-all duration-300 ${
+              className={`px-6 py-2.5 text-[10px] tracking-[0.2em] uppercase border transition-all duration-500 rounded-sm ${
                 filter === cat
-                  ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-border text-muted-foreground hover:border-primary/50 hover:text-foreground'
+                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(212,175,55,0.15)]'
+                  : 'border-white/10 text-muted-foreground hover:border-primary/50 hover:text-foreground'
               }`}
             >
               {cat}
@@ -67,29 +68,29 @@ export default function PortfolioSection() {
           ))}
         </div>
 
-        <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+        <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
           <AnimatePresence mode="popLayout">
             {filtered.map((item) => (
               <motion.div
                 key={item.$id}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => setLightbox(item)}
-                className="group cursor-pointer break-inside-avoid overflow-hidden relative"
+                className="group cursor-pointer break-inside-avoid overflow-hidden relative rounded-sm"
               >
                 <img
                   src={item.image_url}
                   alt={`${item.title} - luxury event by Luxevibes in Kerala`}
                   loading="lazy"
-                  className="w-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-[1.5s] ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end p-8">
                   <div>
-                    <p className="text-primary text-[10px] tracking-widest uppercase">{item.category}</p>
-                    <h3 className="font-heading text-lg mt-1">{item.title}</h3>
+                    <p className="text-primary text-[10px] tracking-[0.3em] uppercase">{item.category}</p>
+                    <h3 className="font-heading text-2xl mt-2 tracking-wide">{item.title}</h3>
                   </div>
                 </div>
               </motion.div>

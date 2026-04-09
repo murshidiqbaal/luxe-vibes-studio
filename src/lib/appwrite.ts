@@ -1,8 +1,20 @@
-import { Client, Databases, Query } from 'appwrite';
+import { Client, Databases, Query, Account, Storage, ID } from 'appwrite';
+
+export const appwriteConfig = {
+  endpoint: import.meta.env.VITE_APPWRITE_ENDPOINT || 'https://sgp.cloud.appwrite.io/v1',
+  projectId: import.meta.env.VITE_APPWRITE_PROJECT_ID || '69d72e170037ae85ba57',
+  databaseId: import.meta.env.VITE_APPWRITE_DATABASE_ID || 'luxe_vibes_db',
+  collectionContentId: import.meta.env.VITE_APPWRITE_COLLECTION_CONTENT_ID || 'website_content',
+  storageId: import.meta.env.VITE_APPWRITE_BUCKET_ID || 'assets',
+};
 
 const client = new Client()
-  .setEndpoint('https://sgp.cloud.appwrite.io/v1')
-  .setProject('69d72e170037ae85ba57');
+  .setEndpoint(appwriteConfig.endpoint)
+  .setProject(appwriteConfig.projectId);
+
+export const account = new Account(client);
+export const storage = new Storage(client);
+export { ID };
 
 export const databases = new Databases(client);
 

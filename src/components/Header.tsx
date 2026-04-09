@@ -52,7 +52,7 @@ export default function Header() {
 
         <a
           href="#contact"
-          className="hidden md:inline-flex px-6 py-2.5 border border-primary text-primary text-xs tracking-widest uppercase hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+          className="hidden md:inline-flex px-6 py-2.5 border border-primary text-primary text-xs tracking-widest uppercase hover:bg-primary hover:text-primary-foreground hover:gold-glow transition-all duration-500"
         >
           Book Now
         </a>
