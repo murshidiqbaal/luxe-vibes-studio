@@ -85,7 +85,7 @@ export default function PortfolioSection() {
                   src={item.image_url}
                   alt={`${item.title} - luxury event by Luxevibes in Kerala`}
                   loading="lazy"
-                  className="w-full object-cover group-hover:scale-110 transition-transform duration-[1.5s] ease-out"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-[1500ms] ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end p-8">
                   <div>
