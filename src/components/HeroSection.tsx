@@ -1,7 +1,7 @@
 import heroImg from '@/assets/hero-wedding.jpg';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { databases, appwriteConfig } from '@/lib/appwrite';
+import { getContentDocument } from '@/lib/supabase';
 import { Loader2 } from 'lucide-react';
 
 export default function HeroSection() {
@@ -9,22 +9,14 @@ export default function HeroSection() {
     queryKey: ['heroSection'],
     queryFn: async () => {
       try {
-        const doc = await databases.getDocument(
-          appwriteConfig.databaseId,
-          appwriteConfig.collectionContentId,
-          'hero_section'
-        );
+        const doc = await getContentDocument('hero_section');
         return doc;
       } catch (error) {
-        // Return null if document doesn't exist yet
         return null;
       }
     }
   });
 
-
-
-  // Fallbacks if data doesn't exist
   const title = heroData?.title || "Crafting Unforgettable\nLuxury Experiences";
   const subtitle = heroData?.subtitle || "Bespoke weddings & premium events tailored to perfection";
   const topText = "Premium Wedding & Event Planners";

@@ -1,12 +1,12 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { getTestimonials, type Testimonial } from '@/lib/appwrite';
+import { getTestimonials, type Testimonial } from '@/lib/supabase';
 
 const fallbackTestimonials: Testimonial[] = [
-  { $id: '1', name: 'Priya & Arjun, Kothamangalam', message: 'Luxevibes transformed our wedding in Kothamangalam into a fairy tale. Every single detail was perfection. The best wedding planners we could have chosen!', rating: 5 },
-  { $id: '2', name: 'Meera & Rahul, Ernakulam', message: 'We searched for premium event planners in Ernakulam and found Luxevibes. Their attention to detail and creativity exceeded all our expectations. Truly world-class.', rating: 5 },
-  { $id: '3', name: 'Ananya & Dev, Kerala', message: 'Our destination wedding in Kerala was absolutely breathtaking. The Luxevibes team handled everything flawlessly — the best luxury wedding planners in Kerala.', rating: 5 },
+  { id: '1', name: 'Priya & Arjun, Kothamangalam', message: 'Luxevibes transformed our wedding in Kothamangalam into a fairy tale. Every single detail was perfection. The best wedding planners we could have chosen!', rating: 5 },
+  { id: '2', name: 'Meera & Rahul, Ernakulam', message: 'We searched for premium event planners in Ernakulam and found Luxevibes. Their attention to detail and creativity exceeded all our expectations. Truly world-class.', rating: 5 },
+  { id: '3', name: 'Ananya & Dev, Kerala', message: 'Our destination wedding in Kerala was absolutely breathtaking. The Luxevibes team handled everything flawlessly — the best luxury wedding planners in Kerala.', rating: 5 },
 ];
 
 export default function TestimonialsSection() {

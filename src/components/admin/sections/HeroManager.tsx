@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { appwriteConfig, databases, storage, ID } from "@/lib/appwrite";
+import { getContentDocument, updateContentDocument, createContentDocument, uploadMedia } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,9 +24,7 @@ export default function HeroManager() {
 
   const fetchHeroData = async () => {
     try {
-      const dbId = appwriteConfig.databaseId;
-      const colId = appwriteConfig.collectionContentId;
-      const doc = await databases.getDocument(dbId, colId, "hero_section");
+      const doc = await getContentDocument("hero_section");
       setHeroData({
         ...heroData,
         title: doc.title || "",
@@ -47,16 +45,8 @@ export default function HeroManager() {
       let finalImageUrl = heroData.imageUrl;
 
       if (heroData.imageFile) {
-        const uploadedFile = await storage.createFile(
-          appwriteConfig.storageId,
-          ID.unique(),
-          heroData.imageFile
-        );
-        finalImageUrl = `${appwriteConfig.endpoint}/storage/buckets/${appwriteConfig.storageId}/files/${uploadedFile.$id}/view?project=${appwriteConfig.projectId}`;
+        finalImageUrl = await uploadMedia(heroData.imageFile);
       }
-
-      const dbId = appwriteConfig.databaseId;
-      const colId = appwriteConfig.collectionContentId;
 
       const dataToSave = {
         elementId: "hero_section",
@@ -67,9 +57,9 @@ export default function HeroManager() {
       };
 
       try {
-        await databases.updateDocument(dbId, colId, "hero_section", dataToSave);
+        await updateContentDocument("hero_section", dataToSave);
       } catch (err) {
-        await databases.createDocument(dbId, colId, "hero_section", dataToSave);
+        await createContentDocument("hero_section", dataToSave);
       }
 
       toast.success("Hero section updated successfully!");

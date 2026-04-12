@@ -1,21 +1,21 @@
-import { Outlet, Navigate, Link, useLocation } from "react-router-dom";
+import logo from '@/assets/luxevibelogo.png';
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { 
-  Loader2, 
-  LayoutDashboard, 
-  Image as ImageIcon, 
-  Sparkles, 
-  Briefcase, 
-  MessageSquare,
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Briefcase,
+  ChevronRight,
+  Image as ImageIcon,
+  LayoutDashboard,
+  Loader2,
   LogOut,
   Menu,
-  X,
-  ChevronRight
+  MessageSquare,
+  Sparkles,
+  X
 } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
-import logo from '@/assets/luxevibelogo.png';
+import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 
 const navItems = [
   { icon: LayoutDashboard, label: "Overview", path: "/admin/dashboard" },
@@ -66,11 +66,10 @@ export default function AdminLayout() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center justify-between px-4 py-3.5 rounded-lg transition-all group ${
-                  isActive 
-                  ? "bg-primary/10 text-primary border border-primary/20" 
-                  : "text-muted-foreground hover:bg-white/5 hover:text-white"
-                }`}
+                className={`flex items-center justify-between px-4 py-3.5 rounded-lg transition-all group ${isActive
+                    ? "bg-primary/10 text-primary border border-primary/20"
+                    : "text-muted-foreground hover:bg-white/5 hover:text-white"
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   <item.icon className={`w-5 h-5 ${isActive ? "text-primary" : "text-muted-foreground group-hover:text-white"}`} />
@@ -83,8 +82,8 @@ export default function AdminLayout() {
         </nav>
 
         <div className="p-4 border-t border-white/5">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             className="w-full justify-start text-muted-foreground hover:text-white hover:bg-destructive/10 hover:text-destructive transition-all"
             onClick={logout}
           >
@@ -99,7 +98,7 @@ export default function AdminLayout() {
         {/* Header */}
         <header className="sticky top-0 z-40 h-20 border-b border-white/5 bg-black/50 backdrop-blur-xl flex items-center justify-between px-6 lg:px-10">
           <div className="flex items-center gap-4">
-            <button 
+            <button
               className="lg:hidden p-2 text-muted-foreground hover:text-white"
               onClick={() => setIsMobileMenuOpen(true)}
             >
@@ -131,14 +130,14 @@ export default function AdminLayout() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
             />
-            <motion.div 
+            <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
@@ -158,11 +157,10 @@ export default function AdminLayout() {
                     key={item.path}
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-all ${
-                      location.pathname === item.path 
-                      ? "bg-primary text-primary-foreground font-bold" 
-                      : "text-muted-foreground hover:bg-white/5"
-                    }`}
+                    className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-all ${location.pathname === item.path
+                        ? "bg-primary text-primary-foreground font-bold"
+                        : "text-muted-foreground hover:bg-white/5"
+                      }`}
                   >
                     <item.icon className="w-5 h-5" />
                     <span>{item.label}</span>
@@ -170,8 +168,8 @@ export default function AdminLayout() {
                 ))}
               </nav>
 
-              <Button 
-                variant="destructive" 
+              <Button
+                variant="destructive"
                 className="w-full mt-auto"
                 onClick={logout}
               >

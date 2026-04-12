@@ -1,29 +1,37 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { account } from "@/lib/appwrite";
-import { Models } from "appwrite";
+import { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 interface AuthContextType {
-  user: Models.User<Models.Preferences> | null;
+  user: any | null;
   loading: boolean;
-  checkAuth: () => Promise<void>;
+  login: (email: string, pass: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  loading: true,
-  checkAuth: async () => {},
-  logout: async () => {},
-});
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<Models.User<Models.Preferences> | null>(null);
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const checkAuth = async () => {
+  useEffect(() => {
+    checkUser();
+    
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+        (event, session) => {
+            setUser(session?.user || null);
+        }
+    );
+
+    return () => {
+        authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const checkUser = async () => {
     try {
-      const session = await account.get();
-      setUser(session);
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user || null);
     } catch (error) {
       setUser(null);
     } finally {
@@ -31,21 +39,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logout = async () => {
-    try {
-      await account.deleteSession("current");
-      setUser(null);
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+  const login = async (email: string, pass: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password: pass,
+    });
+    if (error) throw error;
   };
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+    setUser(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ user, loading, checkAuth, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

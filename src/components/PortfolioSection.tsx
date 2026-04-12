@@ -1,7 +1,7 @@
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { X } from 'lucide-react';
-import { getPortfolioItems, type PortfolioItem } from '@/lib/appwrite';
+import { getPortfolioItems, type PortfolioItem } from '@/lib/supabase';
 
 import fallback1 from '@/assets/portfolio-1.jpg';
 import fallback2 from '@/assets/portfolio-2.jpg';
@@ -9,10 +9,10 @@ import fallback3 from '@/assets/portfolio-3.jpg';
 import fallback4 from '@/assets/portfolio-4.jpg';
 
 const fallbackData: PortfolioItem[] = [
-  { $id: '1', title: 'Royal Garden Wedding', image_url: fallback1, category: 'Weddings', description: 'A breathtaking garden ceremony in Kothamangalam with ocean views.', created_at: '' },
-  { $id: '2', title: 'Emerald Gala Night', image_url: fallback2, category: 'Corporate', description: 'Sophisticated corporate gala in Ernakulam with teal uplighting.', created_at: '' },
-  { $id: '3', title: 'Intimate Anniversary', image_url: fallback3, category: 'Private', description: 'A warm, candlelit anniversary celebration in Kerala.', created_at: '' },
-  { $id: '4', title: 'Classic White Wedding', image_url: fallback4, category: 'Weddings', description: 'Timeless elegance with white florals in Kothamangalam.', created_at: '' },
+  { id: '1', title: 'Royal Garden Wedding', image_url: fallback1, category: 'Weddings', description: 'A breathtaking garden ceremony in Kothamangalam with ocean views.', created_at: '' },
+  { id: '2', title: 'Emerald Gala Night', image_url: fallback2, category: 'Corporate', description: 'Sophisticated corporate gala in Ernakulam with teal uplighting.', created_at: '' },
+  { id: '3', title: 'Intimate Anniversary', image_url: fallback3, category: 'Private', description: 'A warm, candlelit anniversary celebration in Kerala.', created_at: '' },
+  { id: '4', title: 'Classic White Wedding', image_url: fallback4, category: 'Weddings', description: 'Timeless elegance with white florals in Kothamangalam.', created_at: '' },
 ];
 
 const categories = ['All', 'Weddings', 'Corporate', 'Private', 'Destination'];
@@ -72,7 +72,7 @@ export default function PortfolioSection() {
           <AnimatePresence mode="popLayout">
             {filtered.map((item) => (
               <motion.div
-                key={item.$id}
+                key={item.id}
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}

@@ -5,16 +5,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import AdminLayout from "./components/admin/AdminLayout.tsx";
 import KeyboardShortcuts from "./components/admin/KeyboardShortcuts.tsx";
+import HeroManager from "./components/admin/sections/HeroManager";
+import PortfolioManager from "./components/admin/sections/PortfolioManager";
+import ServicesManager from "./components/admin/sections/ServicesManager";
+import TestimonialsManager from "./components/admin/sections/TestimonialsManager";
+import SiteImagesManager from "./components/admin/sections/SiteImagesManager";
+import GalleryManager from "./components/admin/sections/GalleryManager";
+import TeamManager from "./components/admin/sections/TeamManager";
 import { AuthProvider } from "./hooks/useAuth.tsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
 import AdminLogin from "./pages/admin/AdminLogin.tsx";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import HeroManager from "./components/admin/sections/HeroManager";
-import ServicesManager from "./components/admin/sections/ServicesManager";
-import PortfolioManager from "./components/admin/sections/PortfolioManager";
-import TestimonialsManager from "./components/admin/sections/TestimonialsManager";
-// import CursorParticles from "./components/CursorParticles.tsx";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +28,6 @@ const App = () => (
         <Sonner />
         <HashRouter>
           <KeyboardShortcuts />
-          {/* <CursorParticles /> */}
           <Routes>
             <Route path="/" element={<Index />} />
             {/* Admin Routes */}
@@ -46,8 +47,16 @@ const App = () => (
               <Route path="/admin/testimonials" element={
                 <div className="max-w-6xl mx-auto"><TestimonialsManager /></div>
               } />
+              <Route path="/admin/site-images" element={
+                <div className="max-w-6xl mx-auto"><SiteImagesManager /></div>
+              } />
+              <Route path="/admin/gallery" element={
+                <div className="max-w-6xl mx-auto"><GalleryManager /></div>
+              } />
+              <Route path="/admin/team" element={
+                <div className="max-w-6xl mx-auto"><TeamManager /></div>
+              } />
             </Route>
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </HashRouter>
@@ -55,6 +64,5 @@ const App = () => (
     </AuthProvider>
   </QueryClientProvider>
 );
-
 
 export default App;

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { account } from "@/lib/appwrite";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -7,21 +6,27 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState("admin@gmail.com");
-  const [password, setPassword] = useState("admin@123");
+  const [email, setEmail] = useState("luxevibeweddings@gmail.com");
+  const [password, setPassword] = useState("Luxevibes@2026");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { checkAuth } = useAuth();
+  const { user, login } = useAuth();
+  
+  useEffect(() => {
+    if (user) {
+      navigate("/admin/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      await account.createEmailPasswordSession(email, password);
-      await checkAuth();
+      await login(email, password);
       toast.success("Logged in successfully");
       navigate("/admin/dashboard");
     } catch (error: any) {
@@ -73,11 +78,12 @@ export default function AdminLogin() {
                 }
                 try {
                   setIsLoading(true);
-                  await account.create('unique()', email, password);
-                  await account.createEmailPasswordSession(email, password);
-                  await checkAuth();
-                  toast.success("Account created and logged in!");
-                  navigate("/admin/dashboard");
+                  const { error } = await supabase.auth.signUp({
+                    email,
+                    password
+                  });
+                  if (error) throw error;
+                  toast.success("Account created! Please verify email if required, or sign in.");
                 } catch(error: any) {
                   toast.error(error.message || "Failed to create account");
                 } finally {

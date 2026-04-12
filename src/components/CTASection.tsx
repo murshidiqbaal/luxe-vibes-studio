@@ -1,9 +1,29 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getContentDocument } from '@/lib/supabase';
 
 export default function CTASection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
+
+  const { data: ctaData } = useQuery({
+    queryKey: ['ctaContent'],
+    queryFn: async () => {
+      try {
+        const doc = await getContentDocument('text_content');
+        if (doc.data) {
+          return JSON.parse(doc.data);
+        }
+        return null;
+      } catch (error) {
+        return null;
+      }
+    }
+  });
+
+  const title = ctaData?.cta_title || "Plan Your Dream Wedding in Kerala";
+  const subtitle = ctaData?.cta_subtitle || "Every extraordinary celebration begins with a conversation. Whether in Kothamangalam, Ernakulam, or anywhere in Kerala — let us bring your vision to life.";
 
   return (
     <section className="py-32 relative grain-overlay">
@@ -18,10 +38,10 @@ export default function CTASection() {
         >
           <p className="text-primary text-xs tracking-[0.4em] uppercase mb-4">Let's Create Magic</p>
           <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl leading-tight mb-6">
-            Plan Your <span className="text-gradient">Dream Wedding in Kerala</span>
+            {title}
           </h2>
           <p className="text-muted-foreground mb-10 max-w-xl mx-auto">
-            Every extraordinary celebration begins with a conversation. Whether in Kothamangalam, Ernakulam, or anywhere in Kerala — let us bring your vision to life.
+            {subtitle}
           </p>
           <a
             href="#contact"
