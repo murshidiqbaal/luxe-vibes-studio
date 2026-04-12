@@ -7,7 +7,9 @@ const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
   { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Gallery', href: '#gallery' },
   { label: 'Process', href: '#process' },
+  { label: 'Reviews', href: '#testimonials' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -21,6 +23,16 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMobileOpen(false);
+  };
+
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -31,7 +43,7 @@ export default function Header() {
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <a href="#hero" className="flex items-center gap-3">
+        <a href="#hero" onClick={(e) => scrollToSection(e, '#hero')} className="flex items-center gap-3">
           <img src={logo} alt="LuxeVibes" className="h-10 w-10 rounded-full object-cover" />
           <span className="font-heading text-xl tracking-wider text-foreground">
             LUXE <span className="text-primary">VIBE</span>
@@ -43,6 +55,7 @@ export default function Header() {
             <a
               key={link.label}
               href={link.href}
+              onClick={(e) => scrollToSection(e, link.href)}
               className="text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors duration-300"
             >
               {link.label}
@@ -52,6 +65,7 @@ export default function Header() {
 
         <a
           href="#contact"
+          onClick={(e) => scrollToSection(e, '#contact')}
           className="hidden md:inline-flex px-6 py-2.5 border border-primary text-primary text-xs tracking-widest uppercase hover:bg-primary hover:text-primary-foreground hover:brand-glow transition-all duration-500"
         >
           Book Now
@@ -81,13 +95,13 @@ export default function Header() {
                 <a
                   key={link.label}
                   href={link.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => scrollToSection(e, link.href)}
                   className="text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors"
                 >
                   {link.label}
                 </a>
               ))}
-              <a href="#contact" onClick={() => setMobileOpen(false)} className="mt-2 px-6 py-2.5 border border-primary text-primary text-xs tracking-widest uppercase">
+              <a href="#contact" onClick={(e) => scrollToSection(e, '#contact')} className="mt-2 px-6 py-2.5 border border-primary text-primary text-xs tracking-widest uppercase">
                 Book Now
               </a>
             </nav>

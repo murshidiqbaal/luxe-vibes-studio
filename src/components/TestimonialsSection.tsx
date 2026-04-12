@@ -27,7 +27,7 @@ export default function TestimonialsSection() {
   const t = testimonials[current];
 
   return (
-    <section className="py-32 grain-overlay" aria-label="Client testimonials">
+    <section id="testimonials" className="py-32 grain-overlay" aria-label="Client testimonials">
       <div className="container mx-auto px-6">
         <motion.div
           ref={ref}

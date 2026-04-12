@@ -9,7 +9,20 @@ export default function TeamSection() {
     queryFn: getTeamMembers
   });
 
-  if (isLoading || team.length === 0) return null;
+  const DEFAULT_TEAM = [
+    {
+      $id: 'fallback-sreejith',
+      name: "Sreejith",
+      role: "Founder",
+      bio: "As the founder of Luxe Vibe, Sreejith brings over a decade of luxury event management experience. His visionary approach to cinematic weddings ensures every celebration remains timeless.",
+      image_url: "",
+      social_links: "[]"
+    }
+  ];
+
+  const displayTeam = team.length > 0 ? team : DEFAULT_TEAM;
+
+  if (isLoading) return null;
 
   return (
     <section id="team" className="py-32 bg-background relative border-t border-white/5 grain-overlay">
@@ -31,7 +44,7 @@ export default function TeamSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
-          {team.map((member, i) => (
+          {displayTeam.map((member, i) => (
             <motion.div
               key={member.$id}
               initial={{ opacity: 0, y: 40 }}

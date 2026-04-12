@@ -8,6 +8,16 @@ import { toast } from "sonner";
 import { Loader2, Plus, Trash2, Users, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const DEFAULT_TEAM = [
+  {
+    name: "Sreejith",
+    role: "Founder",
+    bio: "As the founder of Luxe Vibe, Sreejith brings over a decade of luxury event management experience. His visionary approach to cinematic weddings ensures every celebration remains timeless.",
+    image_url: "",
+    social_links: "[]"
+  }
+];
+
 export default function TeamManager() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -22,13 +32,24 @@ export default function TeamManager() {
   });
 
   useEffect(() => {
-    fetchTeam();
+    fetchTeam(true); // Enable autoseeding on mount
   }, []);
 
-  const fetchTeam = async () => {
+  const fetchTeam = async (autoSeed = false) => {
     try {
+      setLoading(true);
       const data = await getTeamMembers();
-      setMembers(data);
+      
+      // Auto Seed If Empty
+      if (data.length === 0 && autoSeed) {
+        for (const t of DEFAULT_TEAM) {
+          await addTeamMember(t);
+        }
+        const seeded = await getTeamMembers();
+        setMembers(seeded);
+      } else {
+        setMembers(data);
+      }
     } catch (error) {
       console.log("No team collection found");
     } finally {
@@ -90,15 +111,15 @@ export default function TeamManager() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex justify-between items-end">
+      <div className="flex justify-between items-end border-b border-border/50 pb-4">
         <section className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Our Team</h1>
-          <p className="text-slate-500">Manage the creative professionals.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground font-heading">Our Team</h1>
+          <p className="text-muted-foreground">Manage the creative professionals.</p>
         </section>
         
         <Button 
             onClick={() => setIsAdding(true)} 
-            className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 font-bold uppercase tracking-widest text-[10px] h-12"
+            className="gap-2 font-bold uppercase tracking-widest text-[10px] h-12"
         >
             <Plus className="w-4 h-4" />
             Add Member
@@ -113,18 +134,18 @@ export default function TeamManager() {
             exit={{ opacity: 0, y: -20 }}
             className="mb-8"
           >
-            <Card className="glass border-border/50">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Add Team Member</CardTitle>
+            <Card className="glass border-primary/20 bg-secondary/5">
+              <CardHeader className="flex flex-row items-center justify-between border-b border-border/50 pb-4">
+                <CardTitle className="font-heading">Add Team Member</CardTitle>
                 <Button variant="ghost" size="icon" onClick={() => setIsAdding(false)}>
                     <X className="w-4 h-4" />
                 </Button>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-6 pt-6">
                 <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Full Name</label>
+                            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
                             <Input 
                                 placeholder="E.g. Rahul Sharma" 
                                 value={newMember.name}
@@ -132,7 +153,7 @@ export default function TeamManager() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Role</label>
+                            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Role</label>
                             <Input 
                                 placeholder="E.g. Creative Director" 
                                 value={newMember.role}
@@ -141,28 +162,29 @@ export default function TeamManager() {
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Bio</label>
+                        <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Bio</label>
                         <Textarea 
                             placeholder="Briefly describe their expertise..." 
-                            className="h-[105px]"
+                            className="h-[105px] resize-none"
                             value={newMember.bio}
                             onChange={e => setNewMember(prev => ({ ...prev, bio: e.target.value }))}
                         />
                     </div>
                 </div>
 
-                <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Profile Photo</label>
-                    <div className="flex items-center gap-4">
+                <div className="space-y-2 border-t border-border/50 pt-4 mt-6">
+                    <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground block mb-2">Profile Photo (Optional)</label>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                         <Input 
                             type="file" 
                             accept="image/*" 
                             onChange={e => setNewMember(prev => ({ ...prev, imageFile: e.target.files?.[0] || null }))}
+                            className="flex-1 cursor-pointer"
                         />
                         <Button 
                             onClick={handleAddMember} 
                             disabled={uploading}
-                            className="bg-primary hover:bg-primary/90 text-primary-foreground min-w-[140px]"
+                            className="min-w-[140px] gap-2 w-full sm:w-auto"
                         >
                             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Member"}
                         </Button>
@@ -174,7 +196,7 @@ export default function TeamManager() {
         )}
       </AnimatePresence>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <AnimatePresence>
           {members.map((member) => (
             <motion.div
@@ -183,26 +205,27 @@ export default function TeamManager() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="group relative bg-white border border-border/50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col items-center text-center glass"
+              className="group relative glass border border-border/50 bg-secondary/5 rounded-xl p-6 hover:shadow-[0_0_20px_rgba(0,229,255,0.1)] hover:border-primary/30 transition-all flex flex-col items-center text-center"
             >
-              <div className="w-24 h-24 rounded-full overflow-hidden bg-slate-100 mb-4 ring-4 ring-slate-50 group-hover:ring-primary/20 transition-all">
+              <div className="w-32 h-32 rounded-full overflow-hidden mb-6 ring-2 ring-primary/20 group-hover:ring-primary/50 transition-all relative">
                 {member.image_url ? (
-                    <img src={member.image_url} alt={member.name} className="w-full h-full object-cover" />
+                    <img src={member.image_url} alt={member.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-300">
-                        <Users className="w-8 h-8" />
+                    <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/50 bg-background/50">
+                        <Users className="w-10 h-10 mb-2" />
+                        <span className="text-[10px] tracking-widest uppercase">No Photo</span>
                     </div>
                 )}
               </div>
-              <h4 className="text-lg font-bold text-slate-900 mb-1">{member.name}</h4>
-              <p className="text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-4">{member.role}</p>
-              <p className="text-slate-500 text-xs line-clamp-3 leading-relaxed mb-6">{member.bio}</p>
+              <h4 className="font-heading text-xl font-bold text-foreground mb-1">{member.name}</h4>
+              <p className="text-primary text-[10px] uppercase font-bold tracking-[0.2em] mb-4">{member.role}</p>
+              <p className="text-muted-foreground text-xs leading-relaxed mb-6 px-2">{member.bio}</p>
               
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-red-500 hover:text-red-700 hover:bg-red-50 gap-2 mt-auto"
-                onClick={() => handleDelete(member.$id)}
+                className="text-destructive hover:text-destructive hover:bg-destructive/10 gap-2 mt-auto w-full opacity-60 group-hover:opacity-100 transition-opacity"
+                onClick={() => handleDelete(member.$id || member.id)}
               >
                 <Trash2 className="w-4 h-4" />
                 Remove
@@ -210,10 +233,12 @@ export default function TeamManager() {
             </motion.div>
           ))}
         </AnimatePresence>
+        
         {members.length === 0 && (
-          <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-border/50 rounded-xl bg-slate-50 text-slate-400 glass">
-            <Users className="w-12 h-12 mb-4 opacity-20" />
-            <p className="font-medium">No team members added yet.</p>
+          <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-border/50 rounded-xl glass text-muted-foreground/50">
+            <Users className="w-12 h-12 mb-4 opacity-30" />
+            <p className="font-medium text-foreground">No team members available.</p>
+            <p className="text-sm mt-1">Add your first member to populate the Team Section.</p>
           </div>
         )}
       </div>

@@ -157,6 +157,12 @@ export async function addTestimonial(testimonial: Omit<Testimonial, 'id' | '$id'
   return data;
 }
 
+export async function updateTestimonial(id: string, item: Partial<Omit<Testimonial, 'id' | '$id'>>) {
+  const { data, error } = await supabase.from('testimonials').update(item).eq('id', id).select().single();
+  if (error) throw error;
+  return data;
+}
+
 export async function deleteTestimonial(id: string) {
   const { error } = await supabase.from('testimonials').delete().eq('id', id);
   if (error) throw error;

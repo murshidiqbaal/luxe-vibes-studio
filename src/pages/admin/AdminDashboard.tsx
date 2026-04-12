@@ -1,27 +1,19 @@
 import { useState, useEffect } from "react";
 import { checkSystemStatus } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { 
-  getPortfolioItems, 
-  getTestimonials 
+  getPortfolioItems 
 } from "@/lib/supabase";
-import { motion } from "framer-motion";
 import { 
-  Briefcase, 
-  MessageSquare, 
-  ChevronRight,
   Camera,
   Users,
-  Heart,
-  Type,
   ImageIcon,
   LayoutGrid,
-  Loader2
+  Loader2,
+  Quote
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
 import DatabaseSeeder from "@/components/admin/DatabaseSeeder";
 
 export default function AdminDashboard() {
@@ -60,8 +52,8 @@ export default function AdminDashboard() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 text-[#4A6741] animate-spin mb-4" />
-        <p className="text-sm font-medium text-slate-400">Loading Dashboard...</p>
+        <Loader2 className="w-8 h-8 text-primary animate-spin mb-4" />
+        <p className="text-sm font-medium text-muted-foreground">Loading Dashboard...</p>
       </div>
     );
   }
@@ -70,8 +62,8 @@ export default function AdminDashboard() {
     <div className="space-y-10 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <section className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Dashboard</h1>
-          <p className="text-slate-500">Welcome to your content management system.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground font-heading">Dashboard</h1>
+          <p className="text-muted-foreground text-sm">Welcome to your content management system.</p>
         </section>
         <DatabaseSeeder />
       </div>
@@ -97,7 +89,7 @@ export default function AdminDashboard() {
           sub="Images in the marquee" 
         />
         <StatCard 
-          icon={LayoutGrid} 
+          icon={Users} 
           label="Team Members" 
           value={stats.teamMembers} 
           sub="Creative professionals" 
@@ -106,35 +98,45 @@ export default function AdminDashboard() {
 
       {/* Quick Actions */}
       <section className="space-y-6">
-        <h3 className="text-xl font-bold text-slate-800 tracking-tight">Quick Actions</h3>
+        <h3 className="text-xl font-bold tracking-tight font-heading text-foreground border-b border-border/50 pb-4">
+          Quick Actions
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <QuickActionItem 
+            icon={LayoutGrid} 
+            label="Portfolio Manager" 
+            desc="Update the recent works portfolio grid"
+            path="/admin/portfolio"
+          />
+          <QuickActionItem 
+            icon={Quote} 
+            label="Testimonials" 
+            desc="Add or edit client reviews"
+            path="/admin/testimonials"
+          />
+          <QuickActionItem 
             icon={Camera} 
-            iconColor="bg-blue-50 text-blue-500"
             label="Manage Gallery" 
             desc="Add or remove photos from the main gallery"
             path="/admin/gallery"
           />
           <QuickActionItem 
-            icon={LayoutGrid} 
-            iconColor="bg-purple-50 text-purple-500"
-            label="Recent Works" 
-            desc="Update the recent works carousel"
-            path="/admin/portfolio"
-          />
-          <QuickActionItem 
             icon={ImageIcon} 
-            iconColor="bg-orange-50 text-orange-500"
             label="Site Images" 
-            desc="Update static site images"
+            desc="Update static site images and heroes"
             path="/admin/site-images"
           />
           <QuickActionItem 
             icon={Users} 
-            iconColor="bg-red-50 text-red-500"
             label="Team Manager" 
-            desc="Manage the people behind Sphinx"
+            desc="Manage the people behind Luxe Vibe"
             path="/admin/team"
+          />
+          <QuickActionItem 
+            icon={LayoutGrid} 
+            label="Services Manager" 
+            desc="Modify the services available on homepage"
+            path="/admin/services"
           />
         </div>
       </section>
@@ -144,32 +146,34 @@ export default function AdminDashboard() {
 
 function StatCard({ icon: Icon, label, value, sub }: any) {
   return (
-    <Card className="border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+    <Card className="glass border-border/50 bg-secondary/5 shadow-sm hover:shadow-lg transition-shadow">
       <CardContent className="pt-6">
         <div className="flex justify-between items-start mb-4">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-slate-500">{label}</p>
-            <h4 className="text-3xl font-bold text-slate-900">{value}</h4>
+            <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">{label}</p>
+            <h4 className="text-3xl font-bold text-foreground font-heading">{value}</h4>
           </div>
-          <Icon className="w-5 h-5 text-slate-400" />
+          <div className="p-2 bg-primary/10 rounded-md">
+            <Icon className="w-5 h-5 text-primary" />
+          </div>
         </div>
-        <p className="text-xs text-slate-400">{sub}</p>
+        <p className="text-xs text-muted-foreground">{sub}</p>
       </CardContent>
     </Card>
   );
 }
 
-function QuickActionItem({ icon: Icon, iconColor, label, desc, path }: any) {
+function QuickActionItem({ icon: Icon, label, desc, path }: any) {
   return (
-    <Link to={path} className="group">
-      <Card className="border-slate-200 bg-white shadow-sm group-hover:border-[#4A6741]/30 group-hover:shadow-md transition-all h-full">
+    <Link to={path} className="group flex">
+      <Card className="glass w-full border-border/50 bg-secondary/5 shadow-sm group-hover:border-primary/50 group-hover:shadow-[0_0_15px_rgba(0,229,255,0.1)] transition-all h-full">
         <CardContent className="p-6 flex items-start gap-4">
-          <div className={`p-3 rounded-xl ${iconColor} flex items-center justify-center shrink-0`}>
+          <div className={`p-3 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 transition-transform group-hover:scale-110`}>
             <Icon className="w-5 h-5" />
           </div>
           <div className="space-y-1">
-            <h4 className="font-bold text-slate-900 group-hover:text-[#4A6741] transition-colors">{label}</h4>
-            <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+            <h4 className="font-bold text-foreground font-heading group-hover:text-primary transition-colors tracking-wide">{label}</h4>
+            <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
           </div>
         </CardContent>
       </Card>
